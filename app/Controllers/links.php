@@ -2,4 +2,4 @@
 
 $title = 'Proyectos';
 
-require __DIR__ . '/src/links.template.php';
+require __DIR__ . '/../../src/links.template.php';

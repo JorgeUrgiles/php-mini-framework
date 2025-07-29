@@ -2,4 +2,4 @@
 
 $title = 'Post';
 
-require __DIR__ . '/src/post.template.php';
+require __DIR__ . '/../../src/post.template.php';
