@@ -19,21 +19,25 @@ class Validator
 
                 foreach($rules as $rule) {
                     [$name, $param] = array_pad(explode(':', $rule), 2, null); 
-                    $error = match ($name) {
-                        'required'      => empty($value) ? "$field is required." : null,
-                        'min'           => strlen($value) < $param ? "$field must be at least $param characters." :null,
-                        'max'           => strlen($value) > $param ? "$field must not exceed $param characters.": null,
-                        'url'           => filter_var($value, FILTER_VALIDATE_URL) === false ? "$field must be a valid URL.": null,
-                        default => null,
-                    };
 
-                    if ($error) {
+                    if ($error = $this ->hasError($name, $param, $field, $value) ) {
                         $this->errors[] = $error;
 
                         break;
                     }
                 }
         }
+    }
+
+    protected function hasError(string $name, ?string $param, string $field, mixed $value)
+    {
+        return match ($name) {
+            'required'      => empty($value) ? "$field is required." : null,
+            'min'           => strlen($value) < $param ? "$field must be at least $param characters." :null,
+            'max'           => strlen($value) > $param ? "$field must not exceed $param characters.": null,
+            'url'           => filter_var($value, FILTER_VALIDATE_URL) === false ? "$field must be a valid URL.": null,
+            default => null,
+        };
     }
 
     public function passes () 
