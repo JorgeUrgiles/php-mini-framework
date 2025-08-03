@@ -11,7 +11,7 @@ class Validator
         $this->validate();
     }
 
-    public function validate() 
+    public function validate(): void 
     {
         foreach($this->rules as $field => $rules) {
             $rules = explode('|', $rules);//separamos las reglas
@@ -29,15 +29,35 @@ class Validator
         }
     }
 
-    protected function hasError(string $name, ?string $param, string $field, mixed $value)
+    protected function hasError(string $name, ?string $param, string $field, mixed $value): ?string
     {
         return match ($name) {
-            'required'      => empty($value) ? "$field is required." : null,
-            'min'           => strlen($value) < $param ? "$field must be at least $param characters." :null,
-            'max'           => strlen($value) > $param ? "$field must not exceed $param characters.": null,
-            'url'           => filter_var($value, FILTER_VALIDATE_URL) === false ? "$field must be a valid URL.": null,
+            'required'      =>  $this->validateRequired($field, $value),
+            'min'           =>  $this->validateMin($field, $param, $value),
+            'max'           =>  $this->validateMax($field, $param, $value),
+            'url'           => $this->validateURL($field, $value),
             default => null,
         };
+    }
+
+    protected function validateRequired(string $field, mixed $value): ?string
+    {
+        return ($value == null || $value === '') ? "$field is required." :null;
+    }
+
+        protected function validateMin(string $field, ?string $param, mixed $value): ?string
+    {
+        return strlen($value) < $param ? "$field must be at least $param characters." :null;
+    }
+
+        protected function validateMax(string $field, ?string $param, mixed $value): ?string
+    {
+        return strlen($value) > $param ? "$field must not exceed $param characters.": null;
+    }
+
+        protected function validateURL(string $field, mixed $value): ?string
+    {
+        return filter_var($value, FILTER_VALIDATE_URL) === false ? "$field must be a valid URL.": null;
     }
 
     public function passes () 
