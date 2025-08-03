@@ -6,7 +6,7 @@ return [
     '/about'        =>'app/Controllers/about.php',
     '/links'        =>'app/Controllers/links.php',
     '/blog'         =>'app/Controllers/blog.php',
-    'links/create'  =>'app/Controllers/create.php'
+    '/links/create'  =>'app/Controllers/links-create.php'
     // '/contact.php' => 'app/Controllers/contact.php',
     // '/404' => 'app/Controllers/notFound.php'
 ];

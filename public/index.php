@@ -1,5 +1,6 @@
 <?php
-require __DIR__ . '/../framework/database.php';
+require __DIR__ . '/../framework/Database.php';
+require __DIR__ . '/../framework/Validator.php';
 $db = new Database();
 $routes = require __DIR__ . '/../routes/web.php';
 
