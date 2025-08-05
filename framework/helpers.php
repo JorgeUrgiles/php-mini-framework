@@ -1,5 +1,7 @@
 <?php
 
+use Framework\Database;
+
 if(!function_exists('root_path')) {
     function root_path(string $path)
     {
@@ -36,9 +38,36 @@ if (!function_exists('tint_slected_nav_item')) {
 }
 
 if (!function_exists('set_input_value')) {
- function set_input_value (string $value) {
-    return $_POST[$value] ?? '';
- }
+    function set_input_value (string $value) {
+        return $_POST[$value] ?? '';
+    }
+}
+
+if (!function_exists('config')) {
+    function config(string $key, mixed $default = null) {
+        $config = require root_path('config/app.php');
+
+        return $config[$key] ?? $default;
+    }
+}
+
+if (!function_exists('redirect')) {
+    function redirect(string $uri) {
+        header("Location: /" . normalize_path($uri));
+        exit;
+    }
+}
+
+if (!function_exists('db')) {
+    function db(): Database {
+        static $db = null;
+        
+        if($db === null) {
+            $db = new Database();
+        }
+        //SINGLETON :)
+        return $db;
+    }
 }
 
 }
