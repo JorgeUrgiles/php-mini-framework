@@ -9,20 +9,19 @@ class LinkController
 {
     public function index()
     {
-        $title = 'Proyectos';
-
         $db = new Database();
 
-        $links = $db->query('SELECT * FROM links ORDER BY id DESC')->get();
-
-        require __DIR__ . '/../../src/links.template.php';
+        view('links', [
+            'title' => 'Proyectos',
+            'links' => $db->query('SELECT * FROM links ORDER BY id DESC')->get(),
+        ]);
     }
 
     public function create()
     {
-        $title = 'Registrar proyecto';
-
-        require __DIR__ . '/../../src/links-create.template.php';
+        view('links-create', [
+            'title' => 'Registrar proyecto',
+        ]);
     }
 
     public function store ()
@@ -48,11 +47,10 @@ class LinkController
             exit;
         }
 
-        $errors = $validator->errors();
-
-        $title = 'Registrar proyecto';
-
-        require __DIR__ . '/../../src/links-create.template.php';
+        view('links-create', [
+            'title' => 'Registrar proyecto',
+            'errors' => $validator->errors(),
+        ]);
     }
 
     public function destroy()
@@ -77,7 +75,12 @@ class LinkController
             'id' => $_GET['id'] ?? null,
         ])->firstOrFail();
 
-        require __DIR__ . '/../../src/links-edit.template.php';
+        view('links-edit', [
+            'title' => 'Editar proyecto',
+            'link' =>$db->query('SELECT * FROM links WHERE id = :id', [
+                    'id' => $_GET['id'] ?? null,
+                ])->firstOrFail(),
+        ]);
     }
 
     public function update()
@@ -110,10 +113,9 @@ class LinkController
             exit;
         }
 
-        $errors = $validator->errors();
-
-        $title = 'Editar proyecto';
-
-        require __DIR__ . '/../../src/links-edit.template.php';
+        view('links-edit', [
+            'title' => 'Editar proyecto',
+            'errors' =>  $validator->errors(),
+        ]);
     }
 }

@@ -9,11 +9,11 @@ class HomeController
     public function index()
     {
         $db = new Database();
-
-        $posts = $db
+        
+        view('home', [
+            'posts' => $db
             ->query('SELECT * FROM posts ORDER BY id DESC LIMIT 6')
-            ->get();
-
-        require __DIR__ . '/../../src/home.template.php';
+            ->get(),
+        ]);
     }
 }

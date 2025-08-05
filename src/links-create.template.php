@@ -14,7 +14,7 @@
                     type="text" 
                     name="title" 
                     class="w-full outline-1 outline-gray-300 rounded-md px-3 py-2 text-gray-900" 
-                    value="<?= $_POST['title'] ?? '' ?>">
+                    value="<?= set_input_value('title'); ?>">
             </div>
         </div>
 
@@ -24,7 +24,7 @@
                 <input 
                     type="text" name="url" 
                     class="w-full outline-1 outline-gray-300 rounded-md px-3 py-2 text-gray-900" 
-                    value="<?= $_POST['url'] ?? '' ?>">
+                    value="<?= set_input_value('url'); ?>">
             </div>
         </div>
 
@@ -35,7 +35,7 @@
                 name="description" 
                 rows="2" 
                 class="w-full outline-1 outline-gray-300 rounded-md px-4 py-2 text-gray-900"
-                ><?= $_POST['description'] ?? '' ?></textarea>
+                ><?= set_input_value('description'); ?></textarea>
             </div>
         </div>
 
