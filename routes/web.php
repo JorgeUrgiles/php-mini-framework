@@ -1,10 +1,11 @@
 <?php
 
-require __DIR__ . '/../app/Controllers/AboutController.php';
-require __DIR__ . '/../app/Controllers/HomeController.php';
-require __DIR__ . '/../app/Controllers/LinkController.php';
-require __DIR__ . '/../app/Controllers/PostController.php';
-require __DIR__ . '/../app/Controllers/BlogController.php';
+use App\Controllers\AboutController;
+use App\Controllers\HomeController;
+use App\Controllers\LinkController;
+use App\Controllers\PostController;
+use App\Controllers\BlogController;
+
 
 $router->get('/', [HomeController::class, 'index']);
 $router->get('/about', [AboutController::class, 'index']);

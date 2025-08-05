@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Controllers;
+
+use Framework\Database;
+
 class postController 
 {
     public function show()
