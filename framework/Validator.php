@@ -37,8 +37,10 @@ class Validator
             'required'      =>  $this->validateRequired($field, $value),
             'min'           =>  $this->validateMin($field, $param, $value),
             'max'           =>  $this->validateMax($field, $param, $value),
-            'url'           => $this->validateURL($field, $value),
-            default => null,
+            'url'           =>  $this->validateURL($field, $value),
+            'email'         => filter_var($value, FILTER_VALIDATE_EMAIL) === false ? "$field must be a valid email address." : null,     
+
+            default => throw new \InvalidArgumentException("Validation rule '$name' is not defined."),
         };
     }
 

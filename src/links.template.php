@@ -22,6 +22,8 @@
             
             <p class="mt-2 text-sm text-gray-600"><?= $link['description'] ?></p>
 
+            <?php if(isAuthenticated()) {?>
+
             <div class="flex items-center justify-end gap-4 mt-6">
                 <form action="/links/delete" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar?');">
                     <input type="hidden" name="_method" value="DELETE">        
@@ -36,14 +38,17 @@
                     Editar &rarr;
                 </a>
             </div>
+            <?php } ?>
         </article>
     <?php } ?>
+</div>
+ <?php if(isAuthenticated()) {?>
     <div class="my-16">
-    <a href="/links/create" class="text-sm font-semibold text-gray-900">
-        Registrar &rarr;
-    </a>
-</div>
+        <a href="/links/create" class="text-sm font-semibold text-gray-900">
+            Registrar &rarr;
+        </a>
+    </div>
+ <?php } ?>
 
-</div>
 
 <?php require __DIR__ . '/partials/footer.php'; ?>

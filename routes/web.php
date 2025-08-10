@@ -5,6 +5,7 @@ use App\Controllers\HomeController;
 use App\Controllers\LinkController;
 use App\Controllers\PostController;
 use App\Controllers\BlogController;
+use App\Controllers\AuthController;
 use Framework\Middleware\Authenticated;
 
 $router->get('/', [HomeController::class, 'index']);
@@ -18,3 +19,7 @@ $router->post('/links/store', [LinkController::class, 'store'], Authenticated::c
 $router->get('/links/edit',[LinkController::class,  'edit'], Authenticated::class);
 $router->put('/links/update',[LinkController::class,  'update'], Authenticated::class);
 $router->delete('/links/delete',[LinkController::class,  'destroy'], Authenticated::class);
+
+$router->get('/login', [AuthController::class, 'login']);
+$router->post('/login', [AuthController::class, 'authenticate']);
+$router->post('/logout', [AuthController::class, 'logout'], Authenticated::class);

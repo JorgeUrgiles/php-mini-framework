@@ -26,6 +26,7 @@ if (!function_exists('view')) {
 
         require $filePath;
     }
+}
 
 if (!function_exists('tint_slected_nav_item')) {
     function tint_slected_nav_item(string $url) {
@@ -59,15 +60,20 @@ if (!function_exists('redirect')) {
 }
 
 if (!function_exists('db')) {
-    function db(): Database {
+    function db(): Database 
+    {
         static $db = null;
         
         if($db === null) {
             $db = new Database();
         }
-        //SINGLETON :)
         return $db;
     }
 }
 
+if (!function_exists('isAuthenticated')) {
+    function isAuthenticated()
+    {
+        return (bool) ($_SESSION['user'] ?? false);
+    }
 }

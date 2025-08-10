@@ -32,12 +32,17 @@ class Database
 
     public function get() 
     {
-        return $this->statement->fetchAll(PDO::FETCH_ASSOC);
+        return $this->statement->fetchAll();
+    }
+
+    public function first() {
+        
+        return $this->statement->fetch();
     }
 
     public function firstOrFail()
     {
-       $result = $this->statement->fetch(PDO::FETCH_ASSOC);
+       $result = $this->first();
 
        if (!$result) {
         exit('404 Not Found');
