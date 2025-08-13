@@ -1,6 +1,7 @@
 <?php
 
 use Framework\Database;
+use Framework\SessionManager;
 
 if(!function_exists('root_path')) {
     function root_path(string $path)
@@ -38,9 +39,10 @@ if (!function_exists('tint_slected_nav_item')) {
     }
 }
 
-if (!function_exists('set_input_value')) {
-    function set_input_value (string $value) {
-        return $_POST[$value] ?? '';
+if (!function_exists('old')) {
+    function old(string $key, mixed $default = null) {
+        $key = 'old_' . $key;
+        return session()->getFlash($key, $default);
     }
 }
 
@@ -53,7 +55,14 @@ if (!function_exists('config')) {
 }
 
 if (!function_exists('redirect')) {
-    function redirect(string $uri) {
+    function redirect(string $uri, string|null $message = null, int $status = 302) 
+    {
+        if ($message) {
+            session()->setFlash('message', $message);
+        }
+
+        http_response_code($status);
+
         header("Location: /" . normalize_path($uri));
         exit;
     }
@@ -75,5 +84,68 @@ if (!function_exists('isAuthenticated')) {
     function isAuthenticated()
     {
         return (bool) ($_SESSION['user'] ?? false);
+    }
+}
+
+if (!function_exists('back'))
+{
+    function back (): void
+    {
+        header('Location: ' . $_SERVER['HTTP_REFERER'] ?? '/');
+        exit;
+    }
+}
+
+if (!function_exists('session'))
+{
+    function session (): SessionManager
+    {
+       return new SessionManager();
+    }
+}
+
+if (!function_exists('errors'))
+{
+    function errors (): string
+    {
+       $errors = session()->getFlash('errors') ?? [];
+
+        if (empty($errors)) {
+        return '';
+       }
+
+       if (!is_array($errors)) {
+        $errors = [$errors];
+       }
+
+       $html = '<ul class="mt-4 text-red-500">';
+
+         foreach($errors as $error) {
+            $html .= "<li class='text-xs'>&rarr; {$error}</li>";
+        }
+
+        $html .= '</ul>';
+
+        return $html;
+    }
+    
+}
+
+if (!function_exists('alert'))
+{
+    function alert ()
+    {
+        $message =  session()->getFlash('message');
+
+        if (!$message) {
+            return '';
+        }
+
+        return <<<HTML
+        <div class="bg-blue-100 border border-blue-400 text-blue-700 text-xs px-2 py-1 rounded mb-4">
+            <strong class="font-bold">&rarr;</strong>
+            {$message}
+        </div>
+        HTML;
     }
 }

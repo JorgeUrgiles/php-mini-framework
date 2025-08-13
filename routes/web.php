@@ -7,6 +7,7 @@ use App\Controllers\PostController;
 use App\Controllers\BlogController;
 use App\Controllers\AuthController;
 use Framework\Middleware\Authenticated;
+use Framework\Middleware\Guest;
 
 $router->get('/', [HomeController::class, 'index']);
 $router->get('/about', [AboutController::class, 'index']);
@@ -20,6 +21,6 @@ $router->get('/links/edit',[LinkController::class,  'edit'], Authenticated::clas
 $router->put('/links/update',[LinkController::class,  'update'], Authenticated::class);
 $router->delete('/links/delete',[LinkController::class,  'destroy'], Authenticated::class);
 
-$router->get('/login', [AuthController::class, 'login']);
-$router->post('/login', [AuthController::class, 'authenticate']);
+$router->get('/login', [AuthController::class, 'login'], Guest::class);
+$router->post('/login', [AuthController::class, 'authenticate'], Guest::class);
 $router->post('/logout', [AuthController::class, 'logout'], Authenticated::class);

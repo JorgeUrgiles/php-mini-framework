@@ -23,29 +23,22 @@ class LinkController
 
     public function store ()
     {
-        $validator = new Validator($_POST, [
+        Validator::make($_POST, [
             'title'          =>'required|min:3|max:190',
             'url'            =>'required|url|max:190',
             'description'    =>'required|min:10|max:500',
         ]);
 
-        if ($validator->passes()) {
-            db()->query(
-                'INSERT INTO links (title, url, description) VALUES (:title, :url, :description)',
-                [
-                    'title'         => $_POST['title'],
-                    'url'           => $_POST['url'],
-                    'description'   => $_POST['description'],
-                ]
-            );
+        db()->query(
+            'INSERT INTO links (title, url, description) VALUES (:title, :url, :description)',
+            [
+                'title'         => $_POST['title'],
+                'url'           => $_POST['url'],
+                'description'   => $_POST['description'],
+            ]
+        );
 
-            redirect('/links');
-        }
-
-        view('links-create', [
-            'title' => 'Registrar proyecto',
-            'errors' => $validator->errors(),
-        ]);
+        redirect('/links/create', 'Proyecto registrado correctamente.');
     }
 
     public function destroy()
@@ -69,7 +62,7 @@ class LinkController
 
     public function update()
     {
-        $validator = new Validator($_POST, [
+        Validator::make($_POST, [
             'title'          =>'required|min:3|max:190',
             'url'            =>'required|url|max:190',
             'description'    =>'required|min:10|max:500',
@@ -79,24 +72,16 @@ class LinkController
             'id' => $_GET['id'] ?? null,
         ])->firstOrFail();
 
+        db()->query(
+            'UPDATE links SET title = :title, url = :url, description = :description WHERE id = :id',
+            [
+                'id'            => $link['id'],
+                'title'         => $_POST['title'],
+                'url'           => $_POST['url'],
+                'description'   => $_POST['description'],
+            ]
+        );
 
-        if ($validator->passes()) {
-            db()->query(
-                'UPDATE links SET title = :title, url = :url, description = :description WHERE id = :id',
-                [
-                    'id'            => $link['id'],
-                    'title'         => $_POST['title'],
-                    'url'           => $_POST['url'],
-                    'description'   => $_POST['description'],
-                ]
-            );
-
-            redirect('/links');
-        }
-
-        view('links-edit', [
-            'title' => 'Editar proyecto',
-            'errors' =>  $validator->errors(),
-        ]);
+        redirect('/links/edit?id=' .$link['id'], 'Proyecto actulizado correctamente');
     }
 }

@@ -6,6 +6,7 @@
 </div>
 
 <div class="w-full max-w-xl mx-auto">
+      <?= alert() ?>
     <form action="/links/store" method="POST">
         <div class="mb-4">
             <label class="text-sm font-semibold text-gray-900">Título</label>
@@ -14,7 +15,7 @@
                     type="text" 
                     name="title" 
                     class="w-full outline-1 outline-gray-300 rounded-md px-3 py-2 text-gray-900" 
-                    value="<?= set_input_value('title'); ?>">
+                    value="<?= old('title'); ?>">
             </div>
         </div>
 
@@ -24,7 +25,7 @@
                 <input 
                     type="text" name="url" 
                     class="w-full outline-1 outline-gray-300 rounded-md px-3 py-2 text-gray-900" 
-                    value="<?= set_input_value('url'); ?>">
+                    value="<?= old('url'); ?>">
             </div>
         </div>
 
@@ -35,7 +36,7 @@
                 name="description" 
                 rows="2" 
                 class="w-full outline-1 outline-gray-300 rounded-md px-4 py-2 text-gray-900"
-                ><?= set_input_value('description'); ?></textarea>
+                ><?= old('description'); ?></textarea>
             </div>
         </div>
 
@@ -46,13 +47,7 @@
         </div>
     </form>
 
-    <?php if (!empty($errors)) { ?>
-    <ul class="mt-4 text-red-500">
-         <?php foreach($errors as $error) {?>
-        <li class="text-xs">&rarr; <?= $error ?></li>
-        <?php } ?>
-    </ul>
-    <?php } ?>
+    <?= errors() ?>
 </div>
 
 <?php require __DIR__ . '/partials/footer.php'; ?>
